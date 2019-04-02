@@ -1,4 +1,8 @@
 #include <iostream>
+#include "list"
+
+// Using std ns;
+using namespace std;
 
 // Create Weapons
 enum Weapon {
@@ -14,30 +18,43 @@ enum Game {
   TIE = 2
 };
 
-// Using std ns;
-using namespace std;
+// Create Game History Objects
+struct GameHistory {
+  string pcchoice;
+  string userc;
+  string result;
+  string toString;
+
+  GameHistory(string pcc, string ucc, string rez) :
+    pcchoice(pcc), userc(ucc), result(rez), toString(pcchoice+userc+result) {}
+};
 
 // Init Objects
 Weapon playerChoice;
 Weapon computerChoice;
 Game curGame;
 
+// Store Games in List
+std::list<GameHistory> games;
+
 // Stores computers choice as a string
 string pcstring;
+// User Input
+string uinput;
 
 // Randomly generate computers choice
 void getPcChoice() {
   int ran = (rand() % 3);
   if (ran == 0) {
     computerChoice = ROCK;
-    pcstring = "Rock";
+    pcstring = "r";
   }
     else if (ran == 1) {
         computerChoice = PAPER;
-        pcstring = "Paper";
+        pcstring = "p";
       } else {
           computerChoice = SCISSORS;
-          pcstring = "Scissors";
+          pcstring = "s";
         }
 }
 
@@ -57,12 +74,24 @@ void calcWin() {
  }
 
 void sendResult() {
-  if (curGame == TIE)
+  if (curGame == TIE) {
     cout << "Game is a tie!" << endl;
-  else if (curGame == PCWIN)
+    games.push_back(GameHistory(pcstring+"-",uinput,"-T"));
+  } else if (curGame == PCWIN) {
+    games.push_back(GameHistory(pcstring+"-",uinput,"-PC"));
     cout << "Computer Wins!" << endl;
-    else if (curGame == USERWIN)
+  } else if (curGame == USERWIN) {
+    games.push_back(GameHistory(pcstring+"-",uinput,"-USER"));
       cout << "You Win!" << endl;
+    }
+}
+
+void printHistory() {
+  cout << "----------- Game History -----------" << endl;
+  for (GameHistory gh : games) {
+    cout << gh.toString << endl;
+  }
+  cout << "----------- Game History -----------" << endl;
 }
 
 // Game Loop
@@ -73,8 +102,6 @@ int main() {
   srand ( time(NULL) );
   // Continue string
   string contin;
-  // User Input
-  string uinput;
   // Game While Loop
   do {
   cout << "Rock, Paper, Scissors! (r/p/s) : " << endl;
@@ -93,6 +120,7 @@ int main() {
   if (contin.compare("y") != 0)
     fin = true;
   } while (!fin);
+  printHistory();
   cout << "Program finished!" << endl;
   return 0;
 }
