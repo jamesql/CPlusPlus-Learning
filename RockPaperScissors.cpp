@@ -86,8 +86,11 @@ void sendResult() {
     }
 }
 
+// Prints all games recorded in games list
 void printHistory() {
   cout << "----------- Game History -----------" << endl;
+  cout << "Format : PC-USER-WINNER" << endl;
+  cout << "------------------------------------" << endl;
   for (GameHistory gh : games) {
     cout << gh.toString << endl;
   }
