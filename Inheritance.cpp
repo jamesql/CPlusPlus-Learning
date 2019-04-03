@@ -94,7 +94,7 @@ int main() {
   // Make a new Parent jeff and set partner to karen
   Parent jeff("Jeff", 34, karen);
   // now that jeff is karens partner set karen as a parent
-  karen = Parent("Karen", 33, jeff);
+  karen = Parent(karen.name, karen.age, jeff);
   // add them to a list -- edit make the list
   std::list<Person> ashParents;
   // actually add them to the list
