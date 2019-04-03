@@ -8,6 +8,10 @@ struct Parent;
 struct Child;
 struct Family;
 
+// Animal and Pet Structs
+struct Dog;
+struct Cat;
+
 // Person Object - almost all of our objects will be build off of this
 struct Person {
   public:
@@ -21,15 +25,56 @@ struct Person {
   name(nm), age(page)  {}
 };
 
+  struct Animal {
+    public:
+      string name;
+      int age;
+      string toString;
+
+      Animal(string nm,int page) :
+      name(nm), age(page), toString("[Animal : " + nm + " - " + to_string(age) + "]")        {}
+  };
+
+  struct Pet : Animal {
+    public:
+      string breed;
+
+      Pet(string nm, int page, string breedd):
+      Animal(nm,page), breed(breedd)   { toString = "[Pet : " + name + " - " + to_string(age) + " ( " + breed + " )]";}
+
+  };
+
+  struct Dog : Pet {
+  public:
+    string favoritetoy;
+
+    Dog(string nm, int page, string breed, string favtoy) :
+    Pet(nm,page,breed), favoritetoy(favtoy) {toString = "[Dog : " + name + " - " + to_string(age) + " ( " + breed + " ), ( "+ favoritetoy +" )]";}
+  };
+
+  struct Cat : Pet {
+  public:
+    string favoritetoy;
+
+    Cat(string nm, int page, string breed, string favtoy) :
+    Pet(nm,page,breed), favoritetoy(favtoy) {toString = "[Cat : " + name + " - " + to_string(age) + " ( " + breed + " ), ( "+ favoritetoy +" )]";}
+  };
+
 // Family Object
 struct Family {
   public:
   std::list<Person> members;
   string lastname;
+  std::list<Pet> pets;
 
   // welcome to the family
   void addMember(Person m) {
     members.push_back(m);
+  }
+
+  // Add a pet
+  void addPet(Pet p) {
+    pets.push_back(p);
   }
 
   // Compiles all of the members toStrings
@@ -38,12 +83,18 @@ struct Family {
     for (Person m : members) {
       buildon += m.toString + " <-> ";
     }
+    buildon += " Pets : ";
+    for (Pet p : pets) {
+      buildon += p.toString + " <-> ";
+    }
     return buildon;
   }
 
-  // Constructor
+  // Constructors
   Family(std::list<Person> mmbrs, string ln) :
     members(mmbrs), lastname(ln) { }
+  Family(std::list<Person> mmbrs, string ln, std::list<Pet> ps) :
+      members(mmbrs), lastname(ln), pets(ps) { }
 };
 
 // Child Object -- is a person
@@ -108,6 +159,21 @@ int main() {
   ashFam.addMember(shark);
   // Print out results
   cout << ashFam.toString() << endl;
+  cout << "Adding Pets to the Family (Doug, Kitty & Goldy)" << endl;
+  // Now we want to make some Pets
+  Dog doug("Doug", 3, "Golden Retreiver","Tennis Ball");
+  Cat kitty("Kitty", 1, "Scottish Fold", "Yarn");
+  Pet goldy("Goldy", 2, "Gold Fish");
+  // Add pets to faimly
+  ashFam.addPet(doug);
+  ashFam.addPet(kitty);
+  ashFam.addPet(goldy);
+  // Print out results
+  cout << ashFam.toString() << endl;
+  // Make it easier to read
+  cout << endl;
+  cout << endl;
+  cout << endl;
   return 0;
   // END
 }
