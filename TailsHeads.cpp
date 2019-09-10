@@ -84,7 +84,7 @@ int main()
       gh.addHistory(newGame);
   }
   gh.toString();
-  
+  return 0;
    
   
 }
