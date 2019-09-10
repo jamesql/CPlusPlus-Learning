@@ -32,8 +32,18 @@ struct gameHistory {
     double perHeads;
     void addHistory(game history) {
         games.push_back(history);
+        if (history.winner == 0) {
+            tails++;
+            perTails = (static_cast<double>(tails) / static_cast<double>(gamesToBePlayed));
+        } else {
+            heads++;
+            perHeads = (static_cast<double>(heads) / static_cast<double>(gamesToBePlayed));
+
+        }
     }
     void toString() {
+        cout << "Heads : " << heads << " (" << perHeads*100 << "%)" << endl;
+        cout << "Tails : " << tails << " (" << perTails*100 << "%)" << endl;
         for (game g : games) {
         cout << g.getWinningString() << endl;
         }
